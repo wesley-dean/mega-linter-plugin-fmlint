@@ -1,0 +1,16 @@
+---
+extends: default
+
+rules:
+  line-length:
+    level: warning
+  commas:
+    level: warning
+  comments:
+    level: warning
+    min-spaces-from-content: 1
+  comments-indentation:
+    level: warning
+  document-start:
+    present: true
+
