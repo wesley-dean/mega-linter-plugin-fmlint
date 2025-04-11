@@ -13,5 +13,5 @@ docker run \
   -e PRINT_ALPACA=false \
   -e PLUGINS="[\"file://mega-linter-plugin-frontmatter-linter/frontmatter-linter.megalinter-descriptor.yml\"]" \
   -e ENABLE_LINTERS="[\"MARKDOWN_FRONTMATTER_LINTER\"]" \
-  -e MEGALINTER_FILES_TO_LINT="[\"test/good.yml\",\"test/bad.md\"]" \
+  -e MEGALINTER_FILES_TO_LINT="[\"test/good.md\",\"test/bad.md\"]" \
   docker.io/oxsecurity/megalinter-ci_light:latest
