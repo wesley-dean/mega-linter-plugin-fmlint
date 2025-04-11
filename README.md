@@ -45,6 +45,22 @@ ENABLE_LINTERS:
   - "MARKDOWN_FMLINT""
 ```
 
+### Selecting files to lint
+
+The plugin uses `yamllint` to lint the frontmatter of Markdown files.  By
+default, this plugin will lint all Markdown files in the repository.  That's
+probably not the desired behavior as it'll attempt to lint Markdown files that
+don't have any frontmatter at which point `yamllint` will throw an error saying
+that there's no `---` found.  To prevent this, limit the files to only those
+that actually are expected to include frontmatter. This can be done by setting
+`MARKDOWN_FMLINT_FILTER_REGEX_*` options in the `.mega-linter.yml` file.  For
+example, if you only want to lint Markdown files the `pages` and `posts`
+directories, you can add the following to your `.mega-linter.yml` file:
+
+```yaml
+MARKDOWN_FMLINT_FILTER_REGEX_INCLUDE: "(pages\|posts)/.*\\.md"
+```
+
 ### Configuring the Linter
 
 To configure `yamllint` (the tool that performs the actual linting), you may
