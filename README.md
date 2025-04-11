@@ -34,7 +34,7 @@ PLUGINS:
   - "https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/mega-linter-plugin-fmlint/fmlint.megalinter-descriptor.yml
 ```
 
-[!TIP]
+> [!TIP]
 > Simply adding the plugin to the `PLUGINS` section will cause MegaLiner to read
 > the descriptor and make it available for use.  However, depending on your
 > MegaLinter configuration, you may need to enable the linter in the
@@ -52,7 +52,7 @@ create a `.fmlint.yml` file in the root of your repository. For more
 information on configuring, refer to the
 [yamllint documentation](https://yamllint.readthedocs.io/en/stable/configuration.html)
 
-[!NOTE]
+> [!NOTE]
 > Because `yamllint` is doing the linting, the configuration file must be a
 > valid configuration for `yamllint`.  By default, the plugin will look for a
 > file named `.fmlint.yml` in the root of your repository.  It will not look for
