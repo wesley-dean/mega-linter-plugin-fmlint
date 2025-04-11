@@ -10,7 +10,7 @@ descriptor_flavors:
 file_extensions:
   - ".md"
 linters:
-  - linter_name: "/usr/local/bin/fmlint.sh"
+  - linter_name: "/usr/local/bin/fmlint.bash"
     name: MARKDOWN_FRONTMATTER_LINTER
     linter_repo: "https://github.com/wesley-dean/mega-linter-plugin-frontmatter-linter"
     linter_url: "https://github.com/wesley-dean/mega-linter-plugin-frontmatter-linter"
@@ -30,15 +30,15 @@ linters:
       dockerfile:
         - "RUN pip install yamllint"
         - "RUN rm -f /usr/local/bin/fmlint.sh"
-        - "RUN wget 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-frontmatter-linter/refs/heads/main/fmlint.sh' -O /usr/local/bin/fmlint.sh"
+        - "RUN wget 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-frontmatter-linter/refs/heads/main/fmlint.bash' -O /usr/local/bin/fmlint.bash"
         - "RUN chmod +x /usr/local/bin/fmlint.sh"
 
     cli_lint_mode: "file"
     linter_rules_url: "https://yamllint.readthedocs.io/en/stable/rules.html"
     linter_rules_inline_disable_url: "https://yamllint.readthedocs.io/en/stable/disable_with_comments.html"
-    linter_icon_png_url: "https://raw.githubusercontent.com/oxsecurity/megalinter/main/docs/assets/icons/dockerfile.ico"
+    linter_icon_png_url: "https://raw.githubusercontent.com/oxsecurity/megalinter/main/docs/assets/icons/yaml.ico"
     version_extract_regex: '\\d*'
     examples:
-      - "fmlint --config-file .yamllint.yml ."
-      - "fmlint  **/*.md"
+      - "/usr/local/bin/fmlint.bash --config-file .yamllint.yml ."
+      - "/usr/local/bin/fmlint.bash --format standard **/*.md"
 
