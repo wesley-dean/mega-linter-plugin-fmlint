@@ -1,35 +1,43 @@
 ---
-descriptor_id: "DOCKERFILE"
-descriptor_type: "tooling_format"
+descriptor_id: "MARKDOWN"
+descriptor_type: "format"
 descriptor_flavors:
   - "all_flavors"
   - "ci_light"
+  - "documentation"
   - "security"
   - "terraform"
-file_names_regex:
-  - "docker-compose(-.+)?\\.ya?ml"
+file_extensions:
+  - ".md"
 linters:
-  - linter_name: dclint
-    name: DOCKERFILE_DCLINT
-    cli_lint_extra_args:
-      - "--no-color"
-    linter_repo: "https://github.com/wesley-dean/mega-linter-plugin-dclint"
-    linter_url: "https://github.com/wesley-dean/mega-linter-plugin-dclint"
-    cli_config_arg_name: "--config"
-    config_file_name: ".dclintrc"
+  - linter_name: "fmlint.ba"
+    name: MARKDOWN_FRONTMATTER_LINTER
+    linter_repo: "https://github.com/wesley-dean/mega-linter-plugin-frontmatter-linter"
+    linter_url: "https://github.com/wesley-dean/mega-linter-plugin-frontmatter-linter"
+    cli_config_arg_name: "--config-file_extensions"
+    config_file_name: ".yamllint.yml"
     cli_help_arg_name: "--help"
     cli_version_arg_name: "--version"
     cli_lint_fix_arg_name: "--fix"
-    cli_lint_errors_regex: "[^0-9]*[0-9]+\\s*problems?\\s*\\(([0-9]*)\\s*errors?\\s*,\\s*[0-9]*\\s*warnings?\\)"
-    cli_lint_warnings_regex: "[^0-9]*[0-9]+\\s*problems?\\s*[0-9]*\\s*errors?\\s*,\\s*([0-9]*)\\s*warnings?\\)"
-    cli_lint_mode: "list_of_files"
-    linter_rules_url: "https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/rules.md"
-    linter_rules_inline_disable_url: "https://github.com/zavoloklom/docker-compose-linter/blob/main/docs/configuration-comments.md#disabling-rules"
+
+    cli_lint_extra_args:
+      - --format
+      - standard
+    cli_lint_errors_count: regex_count
+    cli_lint_errors_regex: "[0-9]+:[0-9]+:?\\s*(?:\\[?error\\]?)|(?::error file=)"
+    cli_lint_warnings_regex: "[0-9]+:[0-9]+:?\\s*(?:\\[?warning\\]?)|(?:::warning file=)"
+    install:
+      dockerfile:
+        - "RUN pip install frontmatter-linter"
+        - "RUN wget 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-frontmatter-linter/refs/heads/main/fmlint.sh' > /fmlint.sh"
+        - "RUN chmod +x /fmlint.sh"
+
+    cli_lint_mode: "file"
+    linter_rules_url: "https://yamllint.readthedocs.io/en/stable/rules.html"
+    linter_rules_inline_disable_url: "https://yamllint.readthedocs.io/en/stable/disable_with_comments.html"
     linter_icon_png_url: "https://raw.githubusercontent.com/oxsecurity/megalinter/main/docs/assets/icons/dockerfile.ico"
     version_extract_regex: '\\d*'
     examples:
-      - "dclint docker-compose.yml"
-      - "dclint --config .dclintrc ."
-    install:
-      dockerfile:
-        - "RUN npm install -g dclint"
+      - "fmlint --config-file .yamllint.yml ."
+      - "fmlint  **/*.md"
+
