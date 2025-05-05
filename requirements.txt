@@ -63,7 +63,7 @@ pyyaml==6.0.2 \
     --hash=sha256:f753120cb8181e736c57ef7636e83f31b9c0d1722c516f7e86cf15b7aa57ff12 \
     --hash=sha256:ff3824dc5261f50c9b0dfb3be22b4567a6f938ccce4587b38952d85fd9e9afe4
     # via yamllint
-yamllint==1.37.0 \
-    --hash=sha256:c03ab4e79ab4af964c8eb16ac9746880fc76a3bb0ffb14925b9a55220ae7dda0 \
-    --hash=sha256:ead81921d4d87216b2528b7a055664708f9fb8267beb0c427cb706ac6ab93580
+yamllint==1.37.1 \
+    --hash=sha256:364f0d79e81409f591e323725e6a9f4504c8699ddf2d7263d8d2b539cd66a583 \
+    --hash=sha256:81f7c0c5559becc8049470d86046b36e96113637bcbe4753ecef06977c00245d
     # via -r requirements.in
