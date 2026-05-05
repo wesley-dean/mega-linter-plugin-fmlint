@@ -31,7 +31,7 @@ To use this plugin, add the following to your MegaLinter configuration:
 
 ```yaml
 PLUGINS:
-  - "https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/mega-linter-plugin-fmlint/fmlint.megalinter-descriptor.yml
+  - "https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/mega-linter-plugin-fmlint/fmlint.megalinter-descriptor.yml"
 ```
 
 > [!TIP]
