@@ -42,7 +42,7 @@ PLUGINS:
 
 ```yaml
 ENABLE_LINTERS:
-  - "MARKDOWN_FMLINT""
+  - "MARKDOWN_FMLINT"
 ```
 
 ### Selecting files to lint
