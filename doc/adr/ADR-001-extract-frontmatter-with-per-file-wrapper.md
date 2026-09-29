@@ -108,8 +108,8 @@ default yamllint configuration file.  Existing optional MegaLinter include and
 exclude filters continue to work, but users no longer need an include filter
 merely to avoid Markdown files that have no frontmatter.
 
-The descriptor path remains unchanged.  Consumers do not need to change their
-`PLUGINS` entry.
+The maintained descriptor path remains unchanged.  Release distribution and
+recommended consumer URLs are governed separately by ADR-002.
 
 ## Expected Outcome
 

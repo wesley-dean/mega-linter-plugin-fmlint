@@ -3,19 +3,25 @@
 ## @file tests/megalinter.bash
 ## @brief Exercises fmlint through a real MegaLinter plugin load.
 ## @details
-## Runs the local descriptor in the pinned MegaLinter image and verifies both
-## successful and failing frontmatter cases.  The integration test intentionally
-## keeps MegaLinter errors enabled so a broken plugin cannot appear green merely
-## because the framework was configured to suppress linter failures.
+## Runs the descriptor named by `FMLINT_DESCRIPTOR`, defaulting to the maintained
+## development descriptor, and verifies both successful and failing frontmatter
+## cases.  Release validation points this script at the generated descriptor so
+## the exact distributed bytes and their commit-pinned runtime dependencies are
+## exercised before publication.
+##
+## The integration test intentionally keeps MegaLinter errors enabled so a broken
+## plugin cannot appear green merely because the repository configuration
+## suppresses linter failures.
 
 set -euo pipefail
 
 readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-ghcr.io/oxsecurity/megalinter-ci_light:v10.1.0}"
+readonly FMLINT_DESCRIPTOR="${FMLINT_DESCRIPTOR:-mega-linter-plugin-fmlint/fmlint.megalinter-descriptor.yml}"
 
 ## @fn run_megalinter()
-## @brief Runs the local plugin descriptor against a selected fixture set.
+## @brief Runs the selected plugin descriptor against a selected fixture set.
 ## @details
-## Mounts the repository read-only as MegaLinter input, loads the local plugin
+## Mounts the repository as MegaLinter input, loads the selected plugin
 ## descriptor, and leaves linter errors enabled so the process status reflects
 ## real plugin behavior.
 ##
@@ -38,6 +44,7 @@ readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-ghcr.io/oxsecurity/megalinter-ci_
 ## @endcode
 run_megalinter() {
   local files_json=$1
+  local plugin_uri="file://${FMLINT_DESCRIPTOR}"
 
   docker run \
     --rm \
@@ -48,7 +55,7 @@ run_megalinter() {
     -e PRINT_ALPACA=false \
     -e SARIF_REPORTER=false \
     -e REPORT_OUTPUT_FOLDER=/tmp/megalinter-reports \
-    -e PLUGINS='["file://mega-linter-plugin-fmlint/fmlint.megalinter-descriptor.yml"]' \
+    -e "PLUGINS=[\"\${plugin_uri}\"]" \
     -e ENABLE_LINTERS='["MARKDOWN_FMLINT"]' \
     -e "MEGALINTER_FILES_TO_LINT=${files_json}" \
     "${MEGALINTER_IMAGE}"

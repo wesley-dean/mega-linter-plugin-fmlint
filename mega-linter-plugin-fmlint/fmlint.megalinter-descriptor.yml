@@ -32,8 +32,8 @@ linters:
     cli_lint_warnings_regex: "(?m)^\\s*[0-9]+:[0-9]+\\s+warning\\s+"
     install:
       dockerfile:
-        - "RUN wget -q 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/46f9bfc4705f7fabf87ab76811ab15fd3ed0aaba/requirements.txt' -O /tmp/fmlint-requirements.txt && pip install --require-hashes -r /tmp/fmlint-requirements.txt"
-        - "RUN wget -q 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/46f9bfc4705f7fabf87ab76811ab15fd3ed0aaba/fmlint.bash' -O /usr/local/bin/fmlint && chmod 0755 /usr/local/bin/fmlint"
+        - "RUN wget -q 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/requirements.txt' -O /tmp/fmlint-requirements.txt && pip install --require-hashes -r /tmp/fmlint-requirements.txt"
+        - "RUN wget -q 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/fmlint.bash' -O /usr/local/bin/fmlint && chmod 0755 /usr/local/bin/fmlint"
     cli_lint_mode: "file"
     supported_cli_lint_modes:
       - "file"

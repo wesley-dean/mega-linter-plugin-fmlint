@@ -30,6 +30,8 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+    env:
+      SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -49,11 +51,14 @@ jobs:
       - name: Run TAP behavior tests
         run: make test
 
-      - name: Validate MegaLinter descriptor
+      - name: Validate development descriptor
         run: make validate
 
+      - name: Validate generated descriptor
+        run: make validate-release BUILD_REF="${SOURCE_COMMIT}"
+
       - name: Run MegaLinter integration tests
-        run: make integration-test
+        run: make integration-test BUILD_REF="${SOURCE_COMMIT}"
 
       - name: Upload test results
         if: (!cancelled())

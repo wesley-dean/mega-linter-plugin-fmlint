@@ -1,11 +1,12 @@
 ---
 ADDITIONAL_EXCLUDED_DIRECTORIES:
+  - dist
   - report
   - megalinter-reports
   - test-results
   - doc/standards
 
-FILTER_REGEX_EXCLUDE: '(^|/)(test-results|doc/standards)/'
+FILTER_REGEX_EXCLUDE: '(^|/)(dist|test-results|doc/standards)/'
 
 IGNORE_GITIGNORED_FILES: true
 

@@ -2,6 +2,7 @@ venv
 *~
 networks/*.yml
 .env
+dist/
 megalinter-reports/
 reports/
 test-results/
