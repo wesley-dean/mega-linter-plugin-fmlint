@@ -81,12 +81,12 @@ fmlint_extract_frontmatter() {
     return 1
   fi
 
-  if ! : >"${destination}"; then
+  if ! : > "${destination}"; then
     exec {input_fd}<&-
     printf 'fmlint: cannot prepare temporary frontmatter\n' >&2
     return "${FMLINT_EX_SOFTWARE}"
   fi
-  printf '%s\n' '---' >"${destination}"
+  printf '%s\n' '---' > "${destination}"
 
   while IFS= read -r line <&"${input_fd}" || [[ -n ${line} ]]; do
     normalized=${line%$'\r'}
@@ -94,7 +94,7 @@ fmlint_extract_frontmatter() {
       found_closing=true
       break
     fi
-    printf '%s\n' "${line}" >>"${destination}"
+    printf '%s\n' "${line}" >> "${destination}"
   done
   exec {input_fd}<&-
 
@@ -145,7 +145,7 @@ fmlint_run_yamllint() {
   local status=0
   local line=''
 
-  yamllint "$@" "${frontmatter}" >"${output_file}" 2>&1
+  yamllint "$@" "${frontmatter}" > "${output_file}" 2>&1
   status=$?
 
   while IFS= read -r line || [[ -n ${line} ]]; do
@@ -154,7 +154,7 @@ fmlint_run_yamllint() {
     else
       printf '%s\n' "${line}"
     fi
-  done <"${output_file}"
+  done < "${output_file}"
 
   return "${status}"
 }
