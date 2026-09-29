@@ -18,28 +18,6 @@ readonly FMLINT_EX_DATAERR=65
 readonly FMLINT_EX_NOINPUT=66
 readonly FMLINT_EX_SOFTWARE=70
 
-## @fn fmlint_cleanup()
-## @brief Removes temporary state created for one lint invocation.
-## @details
-## Removes the private temporary directory recorded in `fmlint_tmp_dir` when it
-## exists.  The function is registered as an EXIT trap so temporary frontmatter
-## and captured diagnostics do not survive successful or failed lint execution.
-##
-## @par STDIN
-## Nothing is read from STDIN.
-## @par STDOUT
-## Nothing is written to STDOUT.
-## @par STDERR
-## Nothing is written to STDERR.
-##
-## @returns Nothing is written to STDOUT.
-## @retval 0 Cleanup completed or no temporary directory existed.
-fmlint_cleanup() {
-  if [[ -n ${fmlint_tmp_dir:-} && -d ${fmlint_tmp_dir} ]]; then
-    rm -rf -- "${fmlint_tmp_dir}"
-  fi
-}
-
 ## @fn fmlint_extract_frontmatter()
 ## @brief Extracts YAML frontmatter from one Markdown file.
 ## @details
@@ -88,7 +66,7 @@ fmlint_extract_frontmatter() {
     return "${FMLINT_EX_NOINPUT}"
   fi
 
-  if ! exec {input_fd}<"${filename}"; then
+  if ! exec {input_fd}< "${filename}"; then
     printf 'fmlint: cannot open %s\n' "${filename}" >&2
     return "${FMLINT_EX_NOINPUT}"
   fi
@@ -193,7 +171,7 @@ fmlint_tmp_dir=$(mktemp -d) || {
   printf '%s\n' 'fmlint: unable to create temporary directory' >&2
   exit "${FMLINT_EX_SOFTWARE}"
 }
-trap fmlint_cleanup EXIT
+trap 'rm -rf -- "${fmlint_tmp_dir}"' EXIT
 
 frontmatter_file="${fmlint_tmp_dir}/frontmatter.yml"
 yamllint_output="${fmlint_tmp_dir}/yamllint.out"
