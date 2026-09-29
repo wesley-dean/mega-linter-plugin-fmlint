@@ -55,7 +55,7 @@ run_megalinter() {
     -e PRINT_ALPACA=false \
     -e SARIF_REPORTER=false \
     -e REPORT_OUTPUT_FOLDER=/tmp/megalinter-reports \
-    -e "PLUGINS=[\"\${plugin_uri}\"]" \
+    -e "PLUGINS=[\"${plugin_uri}\"]" \
     -e ENABLE_LINTERS='["MARKDOWN_FMLINT"]' \
     -e "MEGALINTER_FILES_TO_LINT=${files_json}" \
     "${MEGALINTER_IMAGE}"
