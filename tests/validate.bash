@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-docker.io/oxsecurity/megalinter-ci_light:v10.1.0}"
+readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-ghcr.io/oxsecurity/megalinter-ci_light:v10.1.0}"
 readonly V8R_SCHEMA_URL="${V8R_SCHEMA_URL:-https://raw.githubusercontent.com/oxsecurity/megalinter/v10.1.0/megalinter/descriptors/schemas/megalinter-descriptor.jsonschema.json}"
 
 docker run \

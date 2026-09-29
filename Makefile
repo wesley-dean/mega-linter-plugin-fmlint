@@ -2,7 +2,7 @@ SHELL := /bin/bash
 .SHELLFLAGS := -eu -o pipefail -c
 
 TEST_RESULTS_DIR := test-results
-MEGALINTER_IMAGE ?= docker.io/oxsecurity/megalinter-ci_light:v10.1.0
+MEGALINTER_IMAGE ?= ghcr.io/oxsecurity/megalinter-ci_light:v10.1.0
 
 .PHONY: clean integration-test test validate
 

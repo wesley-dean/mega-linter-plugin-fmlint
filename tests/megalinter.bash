@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-docker.io/oxsecurity/megalinter-ci_light:v10.1.0}"
+readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-ghcr.io/oxsecurity/megalinter-ci_light:v10.1.0}"
 
 ## @fn run_megalinter()
 ## @brief Runs the local plugin descriptor against a selected fixture set.
