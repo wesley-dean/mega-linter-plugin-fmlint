@@ -41,3 +41,14 @@ setup() {
   [ "${status}" -ne 0 ]
   [[ "${output}" == *"40-character lowercase Git commit SHA"* ]]
 }
+
+
+@test "documented release URLs satisfy MegaLinter plugin path contract" {
+  version_url="https://github.com/wesley-dean/mega-linter-plugin-fmlint/releases/download/v1.2.3/fmlint.megalinter-descriptor.yml"
+  latest_url="https://github.com/wesley-dean/mega-linter-plugin-fmlint/releases/latest/download/fmlint.megalinter-descriptor.yml"
+
+  for plugin_url in "${version_url}" "${latest_url}"; do
+    [[ "${plugin_url}" == *"/mega-linter-plugin-"* ]]
+    [[ "${plugin_url}" == *.megalinter-descriptor.yml ]]
+  done
+}

@@ -89,6 +89,21 @@ https://github.com/wesley-dean/mega-linter-plugin-fmlint/releases/latest/downloa
 The raw `main` descriptor is a development surface and SHALL NOT be the primary
 documented production installation method.
 
+MegaLinter validates the configured plugin URL or `file://` path before loading
+the descriptor.  Its plugin-path contract requires the configured string to
+contain `/mega-linter-plugin-` and to end with
+`.megalinter-descriptor.yml`.  Both documented GitHub release URL forms satisfy
+that contract because the repository path contains
+`/mega-linter-plugin-fmlint/`, even though GitHub may subsequently redirect the
+HTTPS request to a release-asset host with a different URL.
+
+Local integration testing of the generated artifact is different: the natural
+build path `file://dist/fmlint.megalinter-descriptor.yml` does not contain the
+required repository-name segment.  Tests therefore stage a byte-identical copy
+beneath a temporary `mega-linter-plugin-` directory before invoking MegaLinter.
+That staging path is a local-test accommodation and does not change the release
+artifact filename or public distribution URLs.
+
 ## Alternatives Considered
 
 ### Continue Recommending the main-Branch Descriptor
