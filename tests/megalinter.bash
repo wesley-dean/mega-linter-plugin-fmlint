@@ -44,6 +44,7 @@ run_megalinter() {
     -v "${PWD}:/tmp/lint" \
     -w /tmp/lint \
     -e VALIDATE_ALL_CODEBASE=true \
+    -e DISABLE_ERRORS=false \
     -e PRINT_ALPACA=false \
     -e SARIF_REPORTER=false \
     -e REPORT_OUTPUT_FOLDER=/tmp/megalinter-reports \
