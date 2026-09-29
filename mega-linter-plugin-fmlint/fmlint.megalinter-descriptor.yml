@@ -9,6 +9,8 @@ descriptor_flavors:
   - "terraform"
 file_extensions:
   - ".md"
+file_contains_regex:
+  - '\A---(?:\r?\n|$)'
 linters:
   - linter_name: "fmlint"
     name: "MARKDOWN_FMLINT"
@@ -16,7 +18,7 @@ linters:
     linter_url: "https://github.com/wesley-dean/mega-linter-plugin-fmlint"
     cli_config_arg_name: "--config-file"
     config_file_name: ".fmlint.yml"
-    cli_executable: "yamllint"
+    cli_executable: "fmlint"
     cli_executable_help: "yamllint"
     cli_executable_version: "yamllint"
     cli_version_arg_name: "--version"
@@ -26,15 +28,18 @@ linters:
       - standard
     cli_lint_errors_count: "regex_count"
     cli_lint_errors_regex: "(?m)^\\s*[0-9]+:[0-9]+\\s+error\\s+"
+    cli_lint_warnings_count: "regex_count"
     cli_lint_warnings_regex: "(?m)^\\s*[0-9]+:[0-9]+\\s+warning\\s+"
     install:
       dockerfile:
-        - "RUN wget 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/requirements.txt' -O /tmp/requirements.txt"
-        - "RUN pip install -r /tmp/requirements.txt"
-    cli_lint_mode: "list_of_files"
+        - "RUN wget -q 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/requirements.txt' -O /tmp/fmlint-requirements.txt && pip install --require-hashes -r /tmp/fmlint-requirements.txt"
+        - "RUN wget -q 'https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/fmlint.bash' -O /usr/local/bin/fmlint && chmod 0755 /usr/local/bin/fmlint"
+    cli_lint_mode: "file"
+    supported_cli_lint_modes:
+      - "file"
     linter_rules_url: "https://yamllint.readthedocs.io/en/stable/rules.html"
     linter_rules_inline_disable_url: "https://yamllint.readthedocs.io/en/stable/disable_with_comments.html"
     linter_icon_png_url: "https://raw.githubusercontent.com/oxsecurity/megalinter/main/docs/assets/icons/yaml.ico"
     examples:
-      - "yamllint --config-file .fmlint.yml ."
-      - "yamllint --format standard **/*.md"
+      - "fmlint --config-file .fmlint.yml README.md"
+      - "fmlint --format standard posts/example.md"
