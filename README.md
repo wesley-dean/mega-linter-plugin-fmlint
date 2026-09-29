@@ -78,3 +78,15 @@ information on configuring, refer to the
 > different configuration for `yamllint` than for `fmlint`.  If you want to
 > use the same configuration for both, you can simply create a symlink to the
 > file in the root of your repository.
+
+## Repository Governance
+
+This repository adopts released engineering standards from
+[`wesley-dean/coding_standards`](https://github.com/wesley-dean/coding_standards).
+The complete pinned snapshot is committed beneath `doc/standards/`, while
+`.codingstandardrc` records the adopted release and verified archive digest.
+
+Applicable files beneath `doc/standards/` are project requirements, subject to
+explicit repository-specific governance.  Imported standards are managed as a
+release snapshot and are not edited locally to create project-specific exceptions.
+
