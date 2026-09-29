@@ -12,6 +12,30 @@ set -euo pipefail
 
 readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-docker.io/oxsecurity/megalinter-ci_light:v10.1.0}"
 
+## @fn run_megalinter()
+## @brief Runs the local plugin descriptor against a selected fixture set.
+## @details
+## Mounts the repository read-only as MegaLinter input, loads the local plugin
+## descriptor, and leaves linter errors enabled so the process status reflects
+## real plugin behavior.
+##
+## @param files_json JSON array accepted by MEGALINTER_FILES_TO_LINT.
+##
+## @par STDIN
+## Nothing is read from STDIN.
+## @par STDOUT
+## MegaLinter writes its ordinary console report to STDOUT.
+## @par STDERR
+## MegaLinter and Docker diagnostics may be written to STDERR.
+##
+## @returns MegaLinter's console report.
+## @retval 0 MegaLinter accepted every selected fixture.
+## @note Non-zero Docker or MegaLinter exit statuses are propagated unchanged.
+##
+## @par Examples
+## @code
+## run_megalinter '["tests/fixtures/good.md"]'
+## @endcode
 run_megalinter() {
   local files_json=$1
 
