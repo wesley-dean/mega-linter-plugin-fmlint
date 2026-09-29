@@ -1,83 +1,92 @@
-# mega-linter-plugin-frontmatter-linter
+# mega-linter-plugin-fmlint
 
 [![MegaLinter](https://github.com/wesley-dean/mega-linter-plugin-fmlint/actions/workflows/megalinter.yml/badge.svg)](https://github.com/wesley-dean/mega-linter-plugin-fmlint/actions/workflows/megalinter.yml)
 [![Dependabot Updates](https://github.com/wesley-dean/mega-linter-plugin-fmlint/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/wesley-dean/mega-linter-plugin-fmlint/actions/workflows/dependabot/dependabot-updates)
 [![Scorecard supply-chain security](https://github.com/wesley-dean/mega-linter-plugin-fmlint/actions/workflows/scorecard.yml/badge.svg)](https://github.com/wesley-dean/mega-linter-plugin-fmlint/actions/workflows/scorecard.yml)
 
-This is a MegaLinter plugin for linting YAML frontmatter found in Markdown
-files.
+This MegaLinter plugin lints YAML frontmatter at the beginning of Markdown
+documents.  A thin `fmlint` adapter extracts the frontmatter and delegates the
+actual YAML analysis to [yamllint](https://github.com/adrienverge/yamllint).
+Markdown after the closing frontmatter delimiter is never passed to yamllint.
 
-## Introduction
+## Frontmatter Contract
 
-[MegaLinter](https://github.com/oxsecurity/megalinter) by
-[OxSecurity](https://github.com/oxsecurity) is a linter tool that supports
-various programming languages and file formats. This repository contains a
-MegaLinter plugin for linting YAML frontmatter found in Markdown files.
-[yamllint](https://github.com/adrienverge/yamllint) by
-[adrienverge](https://github.com/adrienverge) is used to perform the actual
-linting while [GNU sed](https://www.gnu.org/software/sed/) is used to extract
-the frontmatter from the Markdown files.  This plugin is designed to be used
-with MegaLinter and is not intended to be used as a standalone tool.
+A document has YAML frontmatter when its first line is:
 
-## Usage
+```text
+---
+```
 
-To use this plugin, you need to have MegaLinter installed. Please refer to the
-[MegaLinter documentation](https://nvuillam.github.io/megalinter/) for
-installation instructions.
+The first subsequent standalone `---` line closes the frontmatter.  For
+example:
 
-### MegaLinter Configuration
+```markdown
+---
+title: Example
+tags:
+  - documentation
+  - example
+---
 
-To use this plugin, add the following to your MegaLinter configuration:
+# Markdown starts here
+
+This content is not YAML and does not affect the frontmatter lint result.
+```
+
+Markdown files without an opening frontmatter delimiter are ignored.  An opening
+delimiter without a closing delimiter is reported as malformed frontmatter.
+
+## MegaLinter Configuration
+
+Add the plugin descriptor to `.mega-linter.yml`:
 
 ```yaml
 PLUGINS:
   - "https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-fmlint/refs/heads/main/mega-linter-plugin-fmlint/fmlint.megalinter-descriptor.yml"
 ```
 
-> [!TIP]
-> Simply adding the plugin to the `PLUGINS` section will cause MegaLiner to read
-> the descriptor and make it available for use.  However, depending on your
-> MegaLinter configuration, you may need to enable the linter in the
-> `ENABLE_LINTERS` section as well.  For example:
+Depending on the rest of your MegaLinter configuration, explicitly enable the
+linter when necessary:
 
 ```yaml
 ENABLE_LINTERS:
   - "MARKDOWN_FMLINT"
 ```
 
-### Selecting files to lint
+The descriptor uses MegaLinter's content filtering to select Markdown files that
+begin with a frontmatter delimiter.  Existing
+`MARKDOWN_FMLINT_FILTER_REGEX_INCLUDE` and
+`MARKDOWN_FMLINT_FILTER_REGEX_EXCLUDE` settings remain available when a
+repository wants to narrow that set further.
 
-The plugin uses `yamllint` to lint the frontmatter of Markdown files.  By
-default, this plugin will lint all Markdown files in the repository.  That's
-probably not the desired behavior as it'll attempt to lint Markdown files that
-don't have any frontmatter at which point `yamllint` will throw an error saying
-that there's no `---` found.  To prevent this, limit the files to only those
-that actually are expected to include frontmatter. This can be done by setting
-`MARKDOWN_FMLINT_FILTER_REGEX_*` options in the `.mega-linter.yml` file.  For
-example, if you only want to lint Markdown files the `pages` and `posts`
-directories, you can add the following to your `.mega-linter.yml` file:
+## yamllint Configuration
 
-```yaml
-MARKDOWN_FMLINT_FILTER_REGEX_INCLUDE: "(pages\|posts)/.*\\.md"
+The default configuration file is `.fmlint.yml`.  It uses yamllint's ordinary
+configuration syntax, so a repository may give frontmatter different YAML style
+rules from its standalone YAML documents.
+
+MegaLinter's generated configuration variable for overriding that path is
+`MARKDOWN_FMLINT_CONFIG_FILE`.
+
+## Development
+
+The maintained adapter is `fmlint.bash`.  Behavioral tests use Bats and keep TAP
+as the canonical console format while writing derivative JUnit data beneath
+`test-results/`.
+
+Useful targets are:
+
+```bash
+make test
+make validate
+make integration-test
+make clean
 ```
 
-### Configuring the Linter
-
-To configure `yamllint` (the tool that performs the actual linting), you may
-create a `.fmlint.yml` file in the root of your repository. For more
-information on configuring, refer to the
-[yamllint documentation](https://yamllint.readthedocs.io/en/stable/configuration.html)
-
-> [!NOTE]
-> Because `yamllint` is doing the linting, the configuration file must be a
-> valid configuration for `yamllint`.  By default, the plugin will look for a
-> file named `.fmlint.yml` in the root of your repository.  It will not look for
-> a file named `.yamllint.yml` or any other name.  If you want to use a
-> different name, you can specify the name of the file in the
-> `FMLINT_CONFIG_FILE` option.  This is because one is likely to have a
-> different configuration for `yamllint` than for `fmlint`.  If you want to
-> use the same configuration for both, you can simply create a symlink to the
-> file in the root of your repository.
+`make test` runs deterministic wrapper behavior tests with a PATH-injected fake
+yamllint.  `make validate` checks the descriptor against the schema from the
+pinned MegaLinter release.  `make integration-test` loads the local descriptor
+through that MegaLinter image and exercises real yamllint behavior.
 
 ## Repository Governance
 
@@ -87,6 +96,6 @@ The complete pinned snapshot is committed beneath `doc/standards/`, while
 `.codingstandardrc` records the adopted release and verified archive digest.
 
 Applicable files beneath `doc/standards/` are project requirements, subject to
-explicit repository-specific governance.  Imported standards are managed as a
-release snapshot and are not edited locally to create project-specific exceptions.
-
+accepted repository-specific ADRs and explicit local policy.  Imported standards
+are managed as a release snapshot and are not edited locally to create
+project-specific exceptions.

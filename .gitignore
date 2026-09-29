@@ -2,6 +2,7 @@ venv
 *~
 networks/*.yml
 .env
-megalinter-reports
-reports
+megalinter-reports/
+reports/
+test-results/
 __pycache__
