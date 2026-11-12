@@ -141,6 +141,17 @@ For a local release-style build, supply the version and source commit explicitly
 make build VERSION=0.1.0 BUILD_REF="$(git rev-parse HEAD)"
 ```
 
+## Dependabot Maintenance
+
+GitHub Actions and pip dependencies receive separate, weekly groups for
+eligible major, minor, and patch *version* updates, with seven-day cooldowns.
+Security updates are independent.  A group containing a major upgrade needs
+targeted manual review and remains excluded from the existing non-major-only
+auto-merge path.  The pip dependencies are hash-pinned in generated
+`requirements.txt`; updates must preserve valid hashes and pass the adapter's
+integration tests.  Earlier Dependabot PRs are not automatically replaced.
+See [ADR-003](doc/adr/ADR-003-consolidate-dependabot-version-updates.md).
+
 ## Repository Governance
 
 This repository adopts released engineering standards from
