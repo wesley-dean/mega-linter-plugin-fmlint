@@ -27,9 +27,18 @@ same bytes.
 
 See [ADR-002](ADR-002-publish-versioned-descriptor-release-artifacts.md).
 
+### ADR-003: Consolidate Scheduled Dependabot Version Updates
+
+GitHub Actions and pip use independent weekly wildcard groups for routine
+major, minor, and patch version updates, with seven-day cooldowns. Security
+updates remain independent and major-containing groups require review.
+
+See [ADR-003](ADR-003-consolidate-dependabot-version-updates.md).
+
 <!-- adrctl-generated-footer -->
 
 ## Architecture Decision Records
 
 * [ADR-001: Extract Frontmatter with a Per-File Wrapper](ADR-001-extract-frontmatter-with-per-file-wrapper.md)
 * [ADR-002: Publish Versioned Descriptor Release Artifacts](ADR-002-publish-versioned-descriptor-release-artifacts.md)
+* [ADR-003: Consolidate Scheduled Dependabot Version Updates](ADR-003-consolidate-dependabot-version-updates.md)
