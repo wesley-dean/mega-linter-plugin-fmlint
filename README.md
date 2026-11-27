@@ -141,16 +141,20 @@ For a local release-style build, supply the version and source commit explicitly
 make build VERSION=0.1.0 BUILD_REF="$(git rev-parse HEAD)"
 ```
 
-## Dependabot Maintenance
+## Dependency Maintenance
 
-GitHub Actions and pip dependencies receive separate, weekly groups for
-eligible major, minor, and patch *version* updates, with seven-day cooldowns.
-Security updates are independent.  A group containing a major upgrade needs
-targeted manual review and remains excluded from the existing non-major-only
-auto-merge path.  The pip dependencies are hash-pinned in generated
-`requirements.txt`; updates must preserve valid hashes and pass the adapter's
-integration tests.  Earlier Dependabot PRs are not automatically replaced.
-See [ADR-003](doc/adr/ADR-003-consolidate-dependabot-version-updates.md).
+Routine dependency version updates are centrally managed through the
+Jenkins Renovate service, with explicit enrollment in root `renovate.json`.
+Scheduled Dependabot version-update proposals are disabled using
+`open-pull-requests-limit: 0` for each configured ecosystem. Dependabot
+security updates and vulnerability alerts remain independent. Existing
+bot-scoped non-major Dependabot auto-merge controls remain for security
+PRs; human code-owner approval and required checks still govern Renovate.
+
+Routine Dependabot PRs are closed with a migration reference. The
+configuration itself does not prove that Jenkins has run or produced an
+equivalent update. See
+[ADR-004](doc/adr/ADR-004-migrate-routine-dependency-updates-to-renovate.md).
 
 ## Repository Governance
 
