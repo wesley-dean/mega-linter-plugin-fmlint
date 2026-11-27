@@ -35,6 +35,15 @@ updates remain independent and major-containing groups require review.
 
 See [ADR-003](ADR-003-consolidate-dependabot-version-updates.md).
 
+### ADR-004: Migrate Routine Dependency Updates to Central Renovate
+
+The repository enrolls in centrally managed Jenkins Renovate through
+`renovate.json`, disables scheduled routine Dependabot PRs, and preserves
+independent security responses and required review gates. This decision
+partially supersedes the earlier Dependabot maintenance ADR.
+
+See [ADR-004](ADR-004-migrate-routine-dependency-updates-to-renovate.md).
+
 <!-- adrctl-generated-footer -->
 
 ## Architecture Decision Records
@@ -42,3 +51,4 @@ See [ADR-003](ADR-003-consolidate-dependabot-version-updates.md).
 * [ADR-001: Extract Frontmatter with a Per-File Wrapper](ADR-001-extract-frontmatter-with-per-file-wrapper.md)
 * [ADR-002: Publish Versioned Descriptor Release Artifacts](ADR-002-publish-versioned-descriptor-release-artifacts.md)
 * [ADR-003: Consolidate Scheduled Dependabot Version Updates](ADR-003-consolidate-dependabot-version-updates.md)
+* [ADR-004: Migrate Routine Dependency Updates to Central Renovate](ADR-004-migrate-routine-dependency-updates-to-renovate.md)
